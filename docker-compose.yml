@@ -1,7 +1,7 @@
 application:
     build: .
     volumes:
-        - .build/symfony:/var/www/symfony
+        - ./build/symfony:/var/www/symfony
         - ./logs/symfony:/var/www/symfony/app/logs
     tty: true
 db:
@@ -25,20 +25,21 @@ nginx:
     build: build/nginx
     ports:
         - 11080:80
+        - 11443:443
     links:
         - php
     volumes_from:
         - application
     volumes:
         - ./logs/nginx/:/var/log/nginx
-elk:
-    image: willdurand/elk
-    ports:
-        - 11081:80
-    volumes:
-        - ./build/elk/logstash:/etc/logstash
-        - ./build/elk/logstash/patterns:/opt/logstash/patterns
-    volumes_from:
-        - application
-        - php
-        - nginx
+#elk:
+#    image: willdurand/elk
+#    ports:
+#        - 11081:80
+#    volumes:
+#        - ./build/elk/logstash:/etc/logstash
+#        - ./build/elk/logstash/patterns:/opt/logstash/patterns
+#    volumes_from:
+#        - application
+#        - php
+#        - nginx
